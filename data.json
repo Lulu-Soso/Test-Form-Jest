@@ -1,0 +1,88 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "john_doe",
+      "email": "john@example.com",
+      "password": "password123"
+    },
+    {
+      "id": 2,
+      "username": "jane_smith",
+      "email": "jane@example.com",
+      "password": "password456"
+    },
+    {
+      "id": 3,
+      "username": "alice_johnson",
+      "email": "alice@example.com",
+      "password": "password789"
+    },
+    {
+      "username": "lucas-dev.",
+      "email": "lucas.sokha@gmail.com",
+      "password": "123",
+      "id": 4
+    },
+    {
+      "username": "Julie",
+      "email": "julie@email.com",
+      "password": "123",
+      "id": 5
+    },
+    {
+      "username": "peter",
+      "email": "julie@email.com",
+      "password": "123",
+      "id": 6
+    },
+    {
+      "username": "peter",
+      "email": "julie@email.com",
+      "password": "123",
+      "id": 7
+    },
+    {
+      "username": "peter",
+      "email": "julie@email.com",
+      "password": "123",
+      "id": 8
+    },
+    {
+      "username": "aaaa",
+      "email": "julie@email.com",
+      "password": "123",
+      "id": 9
+    },
+    {
+      "username": "aaaaws",
+      "email": "julie@email.com",
+      "password": "123",
+      "id": 10
+    },
+    {
+      "username": "Sopjie",
+      "email": "sophie@geml.sdd",
+      "password": "123",
+      "id": 11
+    },
+    {
+      "username": "Sopjie",
+      "email": "sophie@geml.sdd",
+      "password": "123",
+      "id": 12
+    },
+    {
+      "username": "Sopjie",
+      "email": "sophie@geml.sdd",
+      "password": "123",
+      "id": 13
+    },
+    {
+      "username": "romain",
+      "email": "lucas.sokha@gmail.com",
+      "password": "123",
+      "id": 14
+    }
+  ]
+}
