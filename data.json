@@ -59,6 +59,12 @@
       "email": "lucas.sokha@gmail.com",
       "password": "12",
       "id": 10
+    },
+    {
+      "username": "std1",
+      "email": "lucas.sokha@gmail.com",
+      "password": "55",
+      "id": 11
     }
   ]
 }

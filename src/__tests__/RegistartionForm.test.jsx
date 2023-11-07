@@ -1,7 +1,16 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  act,
+} from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import RegistrationForm from "../components/RegistrationForm";
+import axios from "axios";
+
+jest.mock("axios");
 
 describe("RegistrationForm Component (Unit Tests)", () => {
   test("renders the registration form", () => {
@@ -10,6 +19,7 @@ describe("RegistrationForm Component (Unit Tests)", () => {
     const emailInput = screen.getByLabelText("Email:");
     const passwordInput = screen.getByLabelText("Password:");
     const submitButton = screen.getByText("Submit");
+
     expect(usernameInput).toBeInTheDocument();
     expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
@@ -45,34 +55,6 @@ describe("RegistrationForm Component (Unit Tests)", () => {
 });
 
 describe("RegistrationForm Component (Functional Tests)", () => {
-  // test("submits the form successfully and displays success message", async () => {
-  //   render(<RegistrationForm />);
-  //   const usernameInput = screen.getByLabelText("Username:");
-  //   const emailInput = screen.getByLabelText("Email:");
-  //   const passwordInput = screen.getByLabelText("Password:");
-  //   const submitButton = screen.getByText("Submit");
-  
-  //   fireEvent.change(usernameInput, { target: { value: "testuser" } });
-  //   fireEvent.change(emailInput, { target: { value: "test@example.com" } });
-  //   fireEvent.change(passwordInput, { target: { value: "password123" } });
-  
-  //   fireEvent.click(submitButton);
-  
-  //  // Attendre que le message de succès s'affiche
-  // await waitFor(() => {
-  //   const successMessage = screen.getByText("Registration successful");
-  //   expect(successMessage).toBeInTheDocument();
-  //   expect(successMessage).toHaveStyle("color: green"); // Vérifiez le style du message
-  // });
-  
-  //   // Vérifiez que le formulaire n'est plus rendu
-  //   expect(screen.queryByLabelText("Username:")).not.toBeInTheDocument();
-  //   expect(screen.queryByLabelText("Email:")).not.toBeInTheDocument();
-  //   expect(screen.queryByLabelText("Password:")).not.toBeInTheDocument();
-  // });
-  
-  
-
   test("displays 'Email submission failed' when email is invalid", async () => {
     render(<RegistrationForm />);
     const usernameInput = screen.getByLabelText("Username:");
@@ -91,5 +73,35 @@ describe("RegistrationForm Component (Functional Tests)", () => {
       expect(errorMessage).toBeInTheDocument(); // Vérifie que le message d'erreur s'affiche
     });
   });
-});
+  test("submits the form successfully and displays success message", async () => {
+    // Cela permet de simuler une réponse réussie de l'API lorsque le formulaire est soumis.
+    axios.post.mockResolvedValue({ data: "Success" });
 
+    render(<RegistrationForm />);
+    const usernameInput = screen.getByLabelText("Username:");
+    const emailInput = screen.getByLabelText("Email:");
+    const passwordInput = screen.getByLabelText("Password:");
+    const submitButton = screen.getByText("Submit");
+
+    fireEvent.change(usernameInput, { target: { value: "testuser" } });
+    fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+    fireEvent.change(passwordInput, { target: { value: "password123" } });
+
+    // Utilisez act pour attendre que les actions asynchrones soient terminées
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+
+    // Attendre que le message de succès s'affiche
+    await (async () => {
+      const successMessage = screen.getByText("Registration successful");
+      expect(successMessage).toBeInTheDocument();
+      expect(successMessage).toHaveStyle("color: green");
+    });
+
+    // Vérifier que le formulaire n'est plus rendu
+    expect(screen.queryByLabelText("Username:")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Email:")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Password:")).not.toBeInTheDocument();
+  });
+});
