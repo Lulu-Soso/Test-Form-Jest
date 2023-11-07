@@ -9,6 +9,8 @@ npm install --save-dev jest babel-jest @babel/preset-env @babel/preset-react rea
 
 npm jest
 
+jest --coverage
+
 ---
 
 npm install axios

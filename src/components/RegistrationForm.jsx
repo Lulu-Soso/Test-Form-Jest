@@ -1,59 +1,70 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 function RegistrationForm() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  const [errors, setErrors] = useState({
+    email: "",
+  });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  // const [successMessage, setSuccessMessage] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = {
-      username,
-      email,
-      password,
-    };
-
-    const resetFormFields = () => {
-      setUsername("");
-      setEmail("");
-      setPassword("");
-    };
+    if (!validateEmail(formData.email)) {
+      setErrors({
+        email: "Invalid email address",
+      });
+      return;
+    }
 
     try {
-      console.log("Sending request with data:", data);
-      const response = await axios.post("http://localhost:5000/users", data);
+      console.log("Sending request with data:", formData);
+      const response = await axios.post(
+        "http://localhost:5000/users",
+        formData
+      );
       console.log(response.data);
-      // est généralement une convention pour indiquer que la requête a réussi
-      if (response.data === "Success") { 
-        setIsSubmitted(true);
-      }
-      resetFormFields();
+      setIsSubmitted(true);
+      // setSuccessMessage("Registration successful");
+      setFormData({
+        username: "",
+        email: "",
+        password: "",
+      });
+      setErrors({
+        email: "",
+      });
     } catch (error) {
       console.error("Error submitting the form:", error);
+      setIsSubmitted(false);
+      // setSuccessMessage("Registration failed");
     }
   };
-
-  const getDataFromServer = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/users");
-      console.log("Data from server:", response.data);
-    } catch (error) {
-      console.error("Error fetching data from server:", error);
-    }
-  };
-
-  useEffect(() => {
-    getDataFromServer();
-  }, []);
 
   return (
     <div>
       {isSubmitted ? (
-        <p>Registration successful</p>
-
+        // <p style={{ color: "green" }}>{successMessage}</p>
+        <p style={{ color: "green" }}>"Registration successful"</p>
       ) : (
         <form onSubmit={handleSubmit}>
           <div>
@@ -62,8 +73,8 @@ function RegistrationForm() {
               type="text"
               id="username"
               name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={formData.username}
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -72,9 +83,10 @@ function RegistrationForm() {
               type="email"
               id="email"
               name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
             />
+            {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
           </div>
           <div>
             <label htmlFor="password">Password:</label>
@@ -82,8 +94,8 @@ function RegistrationForm() {
               type="password"
               id="password"
               name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handleChange}
             />
           </div>
           <button type="submit">Submit</button>
