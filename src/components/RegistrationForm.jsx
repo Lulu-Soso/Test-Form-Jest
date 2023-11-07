@@ -26,7 +26,8 @@ function RegistrationForm() {
       console.log("Sending request with data:", data);
       const response = await axios.post("http://localhost:5000/users", data);
       console.log(response.data);
-      if (response.data === "Success") {
+      // est généralement une convention pour indiquer que la requête a réussi
+      if (response.data === "Success") { 
         setIsSubmitted(true);
       }
       resetFormFields();
@@ -52,6 +53,7 @@ function RegistrationForm() {
     <div>
       {isSubmitted ? (
         <p>Registration successful</p>
+
       ) : (
         <form onSubmit={handleSubmit}>
           <div>

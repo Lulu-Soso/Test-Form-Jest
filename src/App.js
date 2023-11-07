@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 // import data from "./data.json"
-import RegistrationForm from './components/RegistrationForm'
+import RegistrationForm from "./components/RegistrationForm";
 
 const App = () => {
   // console.log(data);
@@ -8,8 +8,8 @@ const App = () => {
     <div>
       <h1>Tests formulaire</h1>
       <RegistrationForm />
-      </div>
-  )
-}
+    </div>
+  );
+};
 
-export default App
+export default App;

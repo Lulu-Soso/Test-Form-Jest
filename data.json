@@ -83,6 +83,12 @@
       "email": "lucas.sokha@gmail.com",
       "password": "123",
       "id": 14
+    },
+    {
+      "username": "marc",
+      "email": "lucas.sokha@gmail.com",
+      "password": "123",
+      "id": 15
     }
   ]
 }
